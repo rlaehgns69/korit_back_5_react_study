@@ -41,18 +41,50 @@
         // newLi.appendChild(deleteButton);
 
         // 100번주소 실제로는 주소값
-        //   // 200번 버튼 - 100번 지워라
-        //   // 400번 버튼 - 300번 지워라
-        // } // index 그런거 없는데 지워짐.
-        // //주소이해 newLi를 담는데 새로운 주소 100번주소 안에 append append
-        // // 100번주소를 append delete버튼은 100번주소안에 들어있음. button 200번주소
-        // // button클릭하게 되면 100번을 지워라고 정의가 되어있는 것
+          // 200번 버튼 - 100번 지워라
+          // 400번 버튼 - 300번 지워라
+        // }  index 그런거 없는데 지워짐.
+        // 주소이해 newLi를 담는데 새로운 주소 100번주소 안에 append append
+        // 100번주소를 append delete버튼은 100번주소안에 들어있음. button 200번주소
+        // button클릭하게 되면 100번을 지워라고 정의가 되어있는 것
 
         // studentInfoList.appendChild(newLi); //스튜던트 리스트 상관없이 추가
         // deleteButton.onclick = () => {
-        //   studentInfoList.removeChild(newLi);
-        studentInfoList.innerHTML += `<li>이름: ${student.name} / 나이: ${student.age}<button>삭제</button></li>`
+        // studentInfoList.removeChild(newLi);
+        //} index 없는데 지워짐 why?
+        studentInfoList.innerHTML += `<li>이름: ${student.name} / 나이: ${student.age}<button class="delete-button">삭제</button></li>`
+        //onclick=handleRemoveClick(event)
+        // 기존값에서 새로운 값을 대입 위에서부터 아래까지(첨부터끝까지) 다시 만들어짐.(새로 할당) 이벤트가 싹 다시만들어짐.
+        // 첨부터끝까지 이벤트 새로 등록해줘야 된다. for문
+        //deleteButton.onclick = () => { }//정의되지 않음. li 객체 이벤트 어떻게 할거냐 button
+        // 추가 삭제 다시 뿌림(덮어씀.) 첨부터 다시 뿌리는현상
+        // 리액트 virtual dom 기존 객체 새로운 객체 추가 이전꺼랑 새거랑 비교
+        // 바뀐 부분을 찾음. 바뀐 부분만 등록 가상돔은 그대로 둔다.(첨부터 끝까지 재렌더링 필요x)
+        // 리액트 부분변경이 가능하다.
+        // 장점 속도가 빠름.
+        // 단점- 첨에 느림.SSR특징 한번뛰우고 나면 변경된 부분만 렌더링
+        const deleteButtons = document.querySelectorAll(".delete-button")
+        for(let i = 0; i < deleteButtons.length; i++){
+          deleteButtons[i].onclick = () => {
+            const li = studentInfoList.querySelectorAll("li")[i];
+            studentInfoList.removeChild(li);
+        }
+        // 화면깜빡(HTML 렌더링이 다시) x-바닐라자바스크립트(순수 자바스크립트) 발전
+        // DOM객체 innserHTML, append
+          
+        }
+        // deleteButtons [deleteButtons.length-1].onclick = () => {
+          
+        //   const li = studentInfoList.querySelectorAll("li")[deleteButtons.length-1];
+        //   studentInfoList.removeChild(li);
+        // }
       }
+
+      // function handleRemoveClick(event) {
+      //   const studentInfoList = document.querySelector("ul");
+      //   studentInfoList.removeChild(event.target.parentNode);
+        
+      // }
 
       // function StudentInfo({name, age}) {
       //   return `<li></li>`
