@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" placeholder="name">
+  <input type="text" placeholder="age">
+  <button onClick="handleAddClick();">추가</button>
+
+  <ul>
+
+  </ul>
+    <script>
+      const studentList = [];
+
+      function handleAddClick() {
+        const inputs = document.querySelectorAll("input");
+
+        const student = {
+          name: inputs[0].value,
+          age: inputs[1].value,
+        }
+
+        //studentList = [...studentList, student];
+        // append 키워드도 있지만,
+        const studentInfoList = document.querySelector("ul");
+
+        // const newLi = document.createElement("li"); //element 태그
+        // const studentInfoText =
+        //  document.createTextNode(`이름: ${student.name} / 나이: ${student.age}`);
+        // const deleteButton = document.createElement("button");
+        // const deleteButtonName = document.createTextNode("삭제");
+
+        // deleteButton.appendChild(deleteButtonName);
+
+
+        // newLi.appendChild(studentInfoText);
+        // newLi.appendChild(deleteButton);
+
+        // 100번주소 실제로는 주소값
+        //   // 200번 버튼 - 100번 지워라
+        //   // 400번 버튼 - 300번 지워라
+        // } // index 그런거 없는데 지워짐.
+        // //주소이해 newLi를 담는데 새로운 주소 100번주소 안에 append append
+        // // 100번주소를 append delete버튼은 100번주소안에 들어있음. button 200번주소
+        // // button클릭하게 되면 100번을 지워라고 정의가 되어있는 것
+
+        // studentInfoList.appendChild(newLi); //스튜던트 리스트 상관없이 추가
+        // deleteButton.onclick = () => {
+        //   studentInfoList.removeChild(newLi);
+        studentInfoList.innerHTML += `<li>이름: ${student.name} / 나이: ${student.age}<button>삭제</button></li>`
+      }
+
+      // function StudentInfo({name, age}) {
+      //   return `<li></li>`
+      // }
+    </script>
+</body>
+</html>
