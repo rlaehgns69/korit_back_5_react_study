@@ -20,7 +20,7 @@ function InfoInput({ name, onChange, value, placeholder, inputRef }) {
 }
 
 InfoInput.defaultPros = {
-  ref:null
+  inputRef:null
 }
 
 export default InfoInput;
