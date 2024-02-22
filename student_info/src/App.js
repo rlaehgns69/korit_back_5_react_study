@@ -7,6 +7,7 @@ import StudentArrayPage3 from "./pages/StudentArrayPage3";
 import StudentPage from "./pages/StudentPage";
 import { useState } from "react";
 import Params from "./pages/Params";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
  const [ value, setValue] = useState("");
@@ -32,6 +33,7 @@ function App() {
       <Route path="/sta1" element={ <StudentArrayPage />} />
       <Route path="/sta3" element={ <StudentArrayPage3 />} />
       <Route path="/p" element={ <Params />} />
+      <Route path="/books" element={ <SearchPage />} />
     </Routes>
   </>
   
