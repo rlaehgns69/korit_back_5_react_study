@@ -80,10 +80,10 @@ function SearchPage(props) {
     <div>
         <thead>
             <tr>
-                <th>책번호</th>
-                <th>제목</th>
-                <th>카테고리번호</th>
-                <th>카테고리명</th>
+                <th>책번호 </th>
+                <th>제목 </th>
+                <th>카테고리번호 </th>
+                <th>카테고리명 </th>
             </tr>
         </thead>
         <tbody>
