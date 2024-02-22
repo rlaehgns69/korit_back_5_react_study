@@ -9,6 +9,7 @@ import { useState } from "react";
 import Params from "./pages/Params";
 import SearchPage from "./pages/SearchPage";
 import ProductPage from "./pages/ProductPage";
+import SubRoute from "./pages/SubRoute";
 
 function App() {
  const [ value, setValue] = useState("");
@@ -36,6 +37,7 @@ function App() {
       <Route path="/p" element={ <Params />} />
       <Route path="/books" element={ <SearchPage />} />
       <Route path="/product/:productId" element={ <ProductPage />} />
+      <Route path="/sub/*" element={ <SubRoute />} />
 
     </Routes>
   </>
