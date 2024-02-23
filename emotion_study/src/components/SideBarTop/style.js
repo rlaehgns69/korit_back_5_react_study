@@ -1,14 +1,14 @@
 import { css } from "@emotion/react";
-
 export const layout=(isShow) => css`
   box-sizing: border-box;
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 99;
   top: ${isShow ? "0px" : "-80px"};
-  border-top: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
 
-  width: 50%;
+  width: 960px;
   height: 80px;
 
   transition: top 0.5s ease-in-out;
@@ -63,4 +63,10 @@ export const toggleButton = css`
     text-decoration: none;
     cursor: pointer;
 
+    &:hover {
+      background-color: #eee;
+    }
+    &:active {
+      background-color: #dbdbdb;
+    }
   `;
