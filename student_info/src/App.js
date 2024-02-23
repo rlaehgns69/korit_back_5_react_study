@@ -25,7 +25,7 @@ function App() {
       <Link to="/memoization"><li>메모이제이션</li></Link>
       <Link to="/st"><li>학생정보</li></Link>
       <Link to="/sta1"><li>학생들정보1</li></Link>
-      <Link to="/sta1"><li>학생들정보1</li></Link>
+      <Link to="/sta3"><li>학생들정보3</li></Link>
       <Link to={`/p?data=${value}`}><li>파람스</li></Link>
     
     </ul>
