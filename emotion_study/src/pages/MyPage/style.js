@@ -12,6 +12,15 @@ export const layout = css`
   padding: 100px 30px 0px;
 `;
 
+export const profileHeader = css`
+  box-sizing: border-box;
+  margin: 0px auto 20px;//margin-bottom: 20px
+  border: 1px solid #dbdbdb;
+  padding: 30px;
+  width: 700px;// 고정값 필요해보임.
+
+`;
+
 export const title = css`
   margin-bottom: 50px;
   text-align: center;
@@ -75,16 +84,18 @@ export const profileInputLayout = css`
   border: 1px solid #dbdbdb;
   padding: 10px;
   width: 700px;
-  box-shadow: 1px 1px 5px #00000022;
+  /* box-shadow: 1px 1px 5px #00000022; */
 `;
 export const inputBox = css`
   position: relative;
+  margin-bottom: 10px;
 `;
 
 export const profileInput = css`
   box-sizing:  border-box;
-  margin-bottom: 10px;
+  //margin-bottom: 10px;inputBox로
   //padding: 10px 20px;
+  border: 1px solid #dbdbdb;
   padding: 20px 20px 10px;
   font-size: 16px;
 
@@ -92,14 +103,47 @@ export const profileInput = css`
   &:nth-of-type(3n), &:nth-of-type(4n) {
     margin: 0;
   }
+  
+  &:focus {
+    outline: 2px solid #5dd6ff;
+  }
 
   &+label {
     position: absolute;
+    //top: 23px;
+    transform: translateY(-50%);
+    top: 50%;
+    // padding 때문이구나
+    left: 23px;
+    color: #333;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:focus + label, &:not(:placeholder-shown) + label {
+    top: 13px;
+    left: 23px;
+    font-size: 11px;
   }
 `;
 export const buttonLayout = css`
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export const proFilebutton = css`
-
+  box-sizing: border-box;
+  border: 1px solid #dbdbdb;
+  padding: 10px 20px;
+  // width: 700px; 너비 맞추기 폰트크기도
+  background-color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background-color: #fafafa;
+  }
+  &:active {
+    background-color: #eeeeee;
+  }
 `;
