@@ -4,9 +4,12 @@ import * as S from "./style";
 
 function RootLayout({ children }) {
   return (
-    <div css={S.layout}>
-      {children}
-    </div>
+    <>
+      <div css={S.backgourndLayout}></div>
+      <div css={S.layout}>
+        {children}
+      </div>
+    </>
   );
 }
 
