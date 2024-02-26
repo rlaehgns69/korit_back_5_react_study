@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { ref, uploadBytesResumable } from "firebase/storage";
-import { useRef, useState } from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useEffect, useRef, useState } from "react";
 import { storage } from "../../configs/firebase/fireBaseConfig";
 import { upload } from "@testing-library/user-event/dist/upload";
 import { Line } from "rc-progress";
+import { v4 as uuid } from "uuid";
 
 const layout = css`
   display: flex;
@@ -14,7 +15,17 @@ const layout = css`
 `;
 
 const imageLayout = css`
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 300px;
+  height: 300px;
+  border: 1px solid #dbdbdb;
+  overflow: hidden;
+  & > img {
+    width: 100%;
+  }
 `;
 
 function ImageEx(props) {
@@ -22,6 +33,8 @@ function ImageEx(props) {
   const handleButtonClick = () => {
     imgFileRef.current.click();
   };
+  const [ urls, setUrls ] = useState([]);
+  // const [ downloadURL, setDownloadURL ] = useState();
   const [ uploadFiles, setUploadFiles ] = useState([]);
   const [ previews, setPreviews ] = useState([
   
@@ -29,10 +42,17 @@ function ImageEx(props) {
   const [ progressPercent, setProgressPercent ] = useState(0);
   const imgFileRef = useRef();
 
+  useEffect(() => {
+    // 없으면 undefined "" 비었다.=> []빈배열
+    setUrls(!localStorage.getItem("urls") ? [] : JSON.parse(localStorage.getItem("urls")));
+    // 자바스크립트 문자열이 비거나 0, null, undefined => false
+    // getItem 안들어있으면 "" !! not의not true
+  }, []);// 최초한번
+
   const handleImgFileChange = (e) => {
     
-      // console.log(e.target.files);//가지고  for안에 자체 Promise(반복)
-
+      // console.log(e.target.files);
+      //가지고  for안에 자체 Promise(반복)
       // let ps = [
       //    new Promise(resolve => resolve(1)),
       //    new Promise(resolve => resolve(2)),
@@ -57,7 +77,7 @@ function ImageEx(props) {
         const fileReader = new FileReader();
 
         fileReader.onload = (e) => {
-          console.log(e.target.result);
+          // console.log(e.target.result);
           //setPreviews([...previews, e.target.result]);여기서 x
           resolve(e.target.result);
         };//정의만
@@ -67,7 +87,7 @@ function ImageEx(props) {
       Promise.all(promises)
       .then(result => {
         setPreviews(result);
-        console.log(result);
+        // console.log(result);
       }); // fileList map사용 불가
     }
     //미리보기용도 실제로 필요없음. firebase랑 연관 x 저장되는거 아니다.
@@ -105,21 +125,43 @@ function ImageEx(props) {
   const handleImageUpload = () => {
     const file = uploadFiles[0];
     console.log(uploadFiles);
-    const  storageRef = ref(storage, `files/test/${file.name}`);
+    const storageRef = ref(storage, `files/test/${uuid()}_${file.name}`);//파일명 고유한 값
     const uploadTask = uploadBytesResumable(storageRef, file);
 
-    uploadTask.on();
+    uploadTask.on(
+      "state_changed", //상태가 변하고 있는 상태(업로드 되고 있는 상태)
+      (snapshot) => {
+        setProgressPercent(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100))
+      },
+      (error) => {},
+      () => {
+        // alert("업로드 완료");
+          getDownloadURL(storageRef).then(urls => {
+            localStorage.setItem("urls", urls);
+            setUrls(urls);
+            setPreviews([]);//업로드후 미리보기 빈배열
+          })
+      }
+    );
+  
+
   }
 
   
   return (
     <div css={layout}>
+      {urls.map(urls=>
+        <div css={imageLayout}>
+      <   img src={urls} alt="" />
+        </div>
+        )}
+      
       {previews.map((preview, index) =>
       <>
           <div key={index} css={imageLayout}>
              <img src={preview} alt="" />
           </div>
-          <Line percent={progressPercent} strokeWidth={4} strokeColor={"#22222"}/>
+          <Line percent={progressPercent} strokeWidth={4} strokeColor={"#dbdbdb"}/>
       </>
       )}
       <input style={{ display: "none" }} type="file" multiple={true} ref={imgFileRef} onChange={handleImgFileChange} />
