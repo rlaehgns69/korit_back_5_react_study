@@ -135,14 +135,18 @@ export const proFilebutton = css`
   box-sizing: border-box;
   border: 1px solid #dbdbdb;
   padding: 10px 20px;
+  width: 700px;
+  height: 50px;
   // width: 700px; 너비 맞추기 폰트크기도
   background-color: white;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+
   &:hover {
     background-color: #fafafa;
   }
+  
   &:active {
     background-color: #eeeeee;
   }

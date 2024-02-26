@@ -5,6 +5,7 @@ import SideBar from './components/SideBar/SideBar';
 import SideBarTop from './components/SideBarTop/SideBarTop';
 import RootLayout from './components/RootLayout/RootLayout';
 import MyPage from './pages/MyPage/MyPage';
+import { MENUS } from './constants/menu';
 
 
 function App() {
@@ -15,9 +16,7 @@ function App() {
       <SideBarTop />
       <RootLayout>
         <Routes>
-          <Route path='/mypage' element={<MyPage />} />
-          <Route path='/board' element={<>보드</>} />
-          <Route path='/notice' element={<>공지사항</>} />
+          {MENUS.map(menu => <Route path={menu.path} element={menu.element} />)}
         </Routes>
       </RootLayout>
     </>
