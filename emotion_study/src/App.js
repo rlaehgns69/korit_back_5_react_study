@@ -16,7 +16,7 @@ function App() {
       <SideBarTop />
       <RootLayout>
         <Routes>
-          {MENUS.map(menu => <Route path={menu.path} element={menu.element} />)}
+          {MENUS.map(menu => <Route key={menu.id} path={menu.path} element={menu.element} />)}
         </Routes>
       </RootLayout>
     </>
