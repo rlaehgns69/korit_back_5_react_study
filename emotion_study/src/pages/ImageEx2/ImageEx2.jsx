@@ -38,6 +38,8 @@ function ImageEx2() {
     }, []);
 
     const handleFileChange = (e) => {
+        // e.target.files.map 이런함수 없다. fileList가 array로 변하는 이유
+        //console.log(e.target.files); fileList
         const loadFiles = Array.from(e.target.files);
 
         if(loadFiles.length === 0) {
@@ -46,18 +48,19 @@ function ImageEx2() {
         }
 
         const uploadFiles = loadFiles.map(file => {
+            //file객체들을 변경해서 uploadFiles에 담는다.
             return {
-                id: uploadFilesId.current += 1,
+                id: uploadFilesId.current += 1,//ref
                 percent: 0,
                 originFile: file,
                 url: ""
             };
         });
 
-        uploadFilesId.current = 0;
+        uploadFilesId.current = 0;// 123/456(x)
 
         let promises = [];
-
+        // new Promise 생성해서 호출되면 바로 실행 Promise
         promises = uploadFiles.map(file => new Promise((resolve) => {
             const fileReader = new FileReader();
 
