@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import { storage } from "../../configs/firebase/fireBaseConfig";
-import { upload } from "@testing-library/user-event/dist/upload";
 import { Line } from "rc-progress";
 import { v4 as uuid } from "uuid";
 
