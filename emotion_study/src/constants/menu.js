@@ -53,6 +53,9 @@ export const MENUS = [
     {
       id: 8,
       path: "/board/write",
+      params: {
+        title: "테스트 글입니다."
+      },
       name: "게시글 작성",
       element: <BoardWrite />
     },
@@ -60,6 +63,10 @@ export const MENUS = [
       id: 9,
       path: "/board/list",
       name: "게시글 목록",
+      params: {
+        page: 1
+      },
       element: <BoardList />
+      // 처음에 메뉴 누르면 무조건 1번
     }
 ];

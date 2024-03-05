@@ -80,27 +80,31 @@ function BoardWrite() {
 
 
   const handleSubmitClick = () => {
+    let newBoardList = [];
+  // 보드 200개 생성후 한번에 set
+    for(let i = 0; i< 203; i++){
+        const board = {
+            boardId: i + 1, // lastId에서 임시 i
+            boardTitle: inputValue + (i + 1),
+            boardContent: quillValue
+        };
 
-    const board = {
-        boardId: lastId + 1,
-        boardTitle: inputValue,
-        boardContent: quillValue
-    };
-
-    const newBoardList = [...boardList, board];
+        newBoardList = [...newBoardList, board];
+      }
     localStorage.setItem("boardList", JSON.stringify(newBoardList));// 로컬 덮어쓰기
     alert("글 작성 완료.");
     // 글 목록, view
     navigate("/board/list");
+  }
     
     // window.location. href replace
-    //window.location.replace(); // 절대 쓰지말자 
+    // window.location.replace(); // 절대 쓰지말자 
     // 리액트는 바닐라 js랑 다른구조 App에서 부터 다시 최상에 로그인 상태 상위 싹다 초기화
     // react-router-dom useNavigate Hook
     // recoli redux 전역 상태 바로접근 가능 
     // App안에 컴포넌트 안에 컴포넌트 App useState쓰려면 props
 
-  }
+  
 
   return (
     <div css={layout}>
