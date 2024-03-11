@@ -4,21 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import ComponentStudy, {Test} from './pages/ComponentStudy/ComponentStudy';
-// default 이름 {test Test컴포넌트} 비구조할당
-const root = ReactDOM.createRoot(document.getElementById('root'));
-// ComponentStudy(10,20)
-//test();
+import { Reset } from 'styled-reset';
+import GlobalState from './pages/GlobalState/GlobalState';
+import { RecoilRoot } from 'recoil';
 
-// const {a,b} = { // props
-//   a: 10,
-//   b: 20
-// }
-// props.a -> a, b
-root.render
-(
-  // <ComponentStudy a={10} b={30} c={0} /> //속성명 안뜬다. c자동완성
-  //<Test />
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  // <RecoilRoot>
+  //   <GlobalState />
+  // </RecoilRoot>
   <BrowserRouter>
     <App />
   </BrowserRouter>

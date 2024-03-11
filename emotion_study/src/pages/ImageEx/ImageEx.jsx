@@ -4,171 +4,139 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import { storage } from "../../configs/firebase/fireBaseConfig";
 import { Line } from "rc-progress";
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from "uuid"
 
 const layout = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;
 
 const imageLayout = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  width: 300px;
-  height: 300px;
-  border: 1px solid #dbdbdb;
-  overflow: hidden;
-  & > img {
-    width: 100%;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #dbdbdb;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    & > img {
+        width: 100%;
+    }
 `;
 
-function ImageEx(props) {
+function ImageEx() {
+    const uploadFilesId = useRef(0);
+    const [ oldFiles, setOldFiles ] = useState([]);
+    const [ newFiles, setNewFiles ] = useState([]);
+    const imgFileRef = useRef();
 
-  const handleButtonClick = () => {
-    imgFileRef.current.click();
-  };
-  const [ urls, setUrls ] = useState([]);
-  // const [ downloadURL, setDownloadURL ] = useState();
-  const [ uploadFiles, setUploadFiles ] = useState([]);
-  const [ previews, setPreviews ] = useState([
-  
-  ]); // id: 데이터: 임시키값 index 배열에서
-  const [ progressPercent, setProgressPercent ] = useState(0);
-  const imgFileRef = useRef();
+    useEffect(() => {
+        setOldFiles(!localStorage.getItem("oldFiles") ? [] : JSON.parse(localStorage.getItem("oldFiles")));
+    }, []);
 
-  useEffect(() => {
-    // 없으면 undefined "" 비었다.=> []빈배열
-    setUrls(!localStorage.getItem("urls") ? [] : JSON.parse(localStorage.getItem("urls")));
-    // 자바스크립트 문자열이 비거나 0, null, undefined => false
-    // getItem 안들어있으면 "" !! not의not true
-  }, []);// 최초한번
+    const handleFileChange = (e) => {
+        const loadFiles = Array.from(e.target.files);
 
-  const handleImgFileChange = (e) => {
-    
-      // console.log(e.target.files);
-      //가지고  for안에 자체 Promise(반복)
-      // let ps = [
-      //    new Promise(resolve => resolve(1)),
-      //    new Promise(resolve => resolve(2)),
-      //    new Promise(resolve => resolve(3))
-      // ];
+        if(loadFiles.length === 0) {
+            imgFileRef.current.value = "";
+            return;
+        }
 
-      // Promise.all(ps).then(result => console.log(result));
+        const uploadFiles = loadFiles.map(file => {
+            return {
+                id: uploadFilesId.current += 1,
+                progressPercent: 0,
+                originFile: file,
+                url: ""
+            };
+        });
 
-      // setUploadFiles([...upload, e.target.files]);
-      
-      const files = Array.from(e.target.files);
+        uploadFilesId.current = 0;
 
-      if(files.length === 0) {
-        imgFileRef.current.value = "";
-        return;
-      }// 파일 열기 취소
-      setUploadFiles(files);
-      let promises = [];
-      // Promise new Promise 하자마자 실행 - 정의만
+        let promises = [];
 
-      promises = files.map(file => new Promise((resolve) => {
-        const fileReader = new FileReader();
+        promises = uploadFiles.map(file => new Promise((resolve) => {
+            const fileReader = new FileReader();
 
-        fileReader.onload = (e) => {
-          // console.log(e.target.result);
-          //setPreviews([...previews, e.target.result]);여기서 x
-          resolve(e.target.result);
-        };//정의만
-        fileReader.readAsDataURL(file);
-      }));
+            fileReader.onload = (e) => {
+                resolve(e.target.result);
+            }
 
-      Promise.all(promises)
-      .then(result => {
-        setPreviews(result);
-        // console.log(result);
-      }); // fileList map사용 불가
+            fileReader.readAsDataURL(file.originFile);
+        }));
+
+        Promise.all(promises)
+        .then(result => {
+            setNewFiles(result.map((dataUrl, index) => {
+                return {
+                    ...uploadFiles[index],
+                    preview: dataUrl
+                };
+            }));
+        });        
     }
-    //미리보기용도 실제로 필요없음. firebase랑 연관 x 저장되는거 아니다.
 
-   
+    const handleImageUpload = () => {
+        const promises = newFiles.map(file => new Promise(resolve => {
+            const storageRef = ref(storage, `files/test/${uuid()}_${file.originFile.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file.originFile);
 
-      // for(let file of e.target.files) {
-      //   promises = [...promises, new Promise((resolve) => {
-      //     const fileReader = new FileReader();
-  
-      //     fileReader.onload = (e) => {
-      //       console.log(e.target.result);
-      //       setPreviews([...previews, e.target.result]);여기서 x
-      //       resolve(e.target.result);
-      //     };//정의만
-      //     fileReader.readAsDataURL(file);
-      //   })];
-      // // }
-      // Promise.all(promises)
-      // .then(result => {
-      //   setPreviews(result);
-      //   console.log(result);
-      // });// 실행 여기서
-        // const fileReader = new FileReader();
-  
-        // fileReader.onload = (e) => {
-        //   console.log(e.target.result);
-        //   setPreviews([...previews, e.target.result]);
-        // 비동기 Promise사용 프로미스올 동일한 동작 순서대로
-        // };
-        // console.log(fileReader.readyState); 반복문을 한번에 돌린다.
-        // fileReader.readAsDataURL(file);
-        // while(fileReader.readyState !== 2) {}
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    setNewFiles(newFiles.map(sFile => {
+                        return sFile.id !== file.id ? sFile : {
+                            ...sFile, 
+                            percent: Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+                        }
+                    }));
+                },
+                (error) => {},
+                () => {
+                    getDownloadURL(storageRef).then(url => {
+                        const newFile = {
+                            ...file,
+                            ["url"]: url
+                        }
+                        resolve(newFile);
+                    })
+                }
+            );
+        }));
 
-  const handleImageUpload = () => {
-    const file = uploadFiles[0];
-    console.log(uploadFiles);
-    const storageRef = ref(storage, `files/test/${uuid()}_${file.name}`);//파일명 고유한 값
-    const uploadTask = uploadBytesResumable(storageRef, file);
+        Promise.all(promises)
+        .then((newFile) => {
+            setOldFiles(newFile);
+            localStorage.setItem("oldFiles", JSON.stringify(newFile));
+        }).then(() => {
+            setNewFiles([]);
+        });
+    }
 
-    uploadTask.on(
-      "state_changed", //상태가 변하고 있는 상태(업로드 되고 있는 상태)
-      (snapshot) => {
-        setProgressPercent(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100))
-      },
-      (error) => {},
-      () => {
-        // alert("업로드 완료");
-          getDownloadURL(storageRef).then(urls => {
-            localStorage.setItem("urls", urls);
-            setUrls(urls);
-            setPreviews([]);//업로드후 미리보기 빈배열
-          })
-      }
-    );
-  
-
-  }
-
-  
-  return (
-    <div css={layout}>
-      {urls.map(urls=>
-        <div css={imageLayout}>
-      <   img src={urls} alt="" />
+    return (
+        <div css={layout}>
+            {oldFiles?.map(file => 
+                <div key={file.id} css={imageLayout}>
+                    <img src={file.url} alt="" />
+                </div>
+            )}
+            {newFiles?.map(file => 
+                <>
+                    <div key={file.id} css={imageLayout}>
+                        <img src={file.preview} alt="" />
+                    </div>
+                    <Line percent={file.percent} strokeWidth={4} strokeColor={"#dbdbdb"}/>
+                </>
+            )}
+            
+            <input style={{display: "none"}} type="file" multiple={true} ref={imgFileRef} onChange={handleFileChange}/>
+            <button onClick={() => imgFileRef.current.click()}>이미지 불러오기</button>
+            <button onClick={handleImageUpload}>이미지 업로드</button>
         </div>
-        )}
-      
-      {previews.map((preview, index) =>
-      <>
-          <div key={index} css={imageLayout}>
-             <img src={preview} alt="" />
-          </div>
-          <Line percent={progressPercent} strokeWidth={4} strokeColor={"#dbdbdb"}/>
-      </>
-      )}
-      <input style={{ display: "none" }} type="file" multiple={true} ref={imgFileRef} onChange={handleImgFileChange} />
-      <button onClick={handleButtonClick}>이미지 불러오기</button>
-      <button onClick={handleImageUpload}>이미지 업로드</button>
-    </div>
-  );
-      
-};
+    );
+}
 
 export default ImageEx;
