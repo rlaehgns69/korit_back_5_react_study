@@ -16,9 +16,11 @@ function SignInPage() {
       username,
       password
     }).then(response => {
-      console.log(response);
+      const accessToken = response.data; //중요
+      localStorage.setItem("AccessToken", accessToken);
+      window.location.replace("/"); //로그인 완료
     }).catch(error => {
-      console.log(error);
+      alert(error.response.data);
     })
   }
   return (
