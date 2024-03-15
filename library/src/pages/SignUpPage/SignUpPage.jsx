@@ -11,7 +11,7 @@ import { signupRequest } from "../../apis/api/signup";
 function SignUpPage() {
   const navigate = useNavigate();
 
-  const [ username, userNameChange, usernameMessgage, ] = useInput("username");
+  const [ username, userNameChange, usernameMessgage, setUsernameValue, setUsernameMessage ] = useInput("username"); // setusernameValue 순서
   const [ password, passwordChange, passwordMessage ] = useInput("password");
   const [ checkPassword, checkPasswordChange ] = useInput("checkPassword");
   const [ name, nameChange, nameMessage] = useInput("name");
@@ -71,12 +71,27 @@ function SignUpPage() {
       console.log(response);
       if(response.status == 201) {
         navigate("/auth/signin");//응답이 오고나면
+      }  
+    }).catch(error => {
+      // console.log(response); reject가 받아지네?
+      if(error.response.status === 400) {
+        const errorMap = error.response.data;
+        const errorEntires = Object.entries(errorMap);
+        for(let [k, v] of errorEntires) {
+          if(k === "username") {
+            setUsernameMessage(() => {
+              return {
+                type: "error",
+                text: v
+              } // username 중복인 경우
+              //프론트에서 정규화 했기 때문엔
+            })
+          }
+        }
       } else {
         alert("회원가입 오류");
       }
-
-      
-    })
+    });
   }
 
 

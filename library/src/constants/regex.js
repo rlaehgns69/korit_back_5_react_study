@@ -1,8 +1,8 @@
 // 정규식 집합
 export const REGEX = {
   username: {
-    regexr: /^[A-Za-z0-9]{5,10}$/,
-    text: "영문자, 숫자 5 ~ 10자리 형식이어야 합니다"
+    regexr: /^[A-Za-z0-9]{5,20}$/,
+    text: "영문자, 숫자 5 ~ 20자리 형식이어야 합니다"
   },
   password: {
     // regexr: /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/,
