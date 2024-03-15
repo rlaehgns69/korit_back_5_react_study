@@ -11,7 +11,7 @@ import { signupRequest } from "../../apis/api/signup";
 function SignUpPage() {
   const navigate = useNavigate();
 
-  const [ username, userNameChange, usernameMessgage, setUsernameValue, setUsernameMessage ] = useInput("username"); // setusernameValue 순서
+  const [ username, usernameChange, usernameMessgage, setUsernameValue, setUsernameMessage ] = useInput("username"); // setusernameValue 순서
   const [ password, passwordChange, passwordMessage ] = useInput("password");
   const [ checkPassword, checkPasswordChange ] = useInput("checkPassword");
   const [ name, nameChange, nameMessage] = useInput("name");
@@ -96,19 +96,19 @@ function SignUpPage() {
 
 
   return (
-    <div>
+    <>
         <div css={s.header}>
           <h1>회원가입</h1>
           <RightTopButton onClick={handleSignSubmit}> 가입하기 </RightTopButton>
         </div>
-        <AuthPageInput type={"text"} name={"username"} placeholder={"사용자이름"} value={username} onChange={userNameChange} message={usernameMessgage} />
+        <AuthPageInput type={"text"} name={"username"} placeholder={"사용자이름"} value={username} onChange={usernameChange} message={usernameMessgage} />
         <AuthPageInput type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} message={passwordMessage} />
         <AuthPageInput type={"password"} name={"checkPassword"} placeholder={"비밀번호확인"} value={checkPassword} onChange={checkPasswordChange}  message={checkPasswordMessage} />
         <AuthPageInput type={"text"} name={"name"} placeholder={"성명"} value={name} onChange={nameChange} message={nameMessage} />
         <AuthPageInput type={"text"} name={"email"} placeholder={"이메일"} value={email} onChange={emailChange} message={emailMessage} />
         
         
-    </div>
+    </>
   );
 }
 
