@@ -33,9 +33,7 @@ export const useInput = (property) => {
               type: "error",
               text: v.text
             }
-
         })
-          
         }
       }
     }
@@ -45,5 +43,5 @@ export const useInput = (property) => {
     setValue(() => e.target.value);
   }
 
-  return [ value, setValue, message, handleOnChange ]
+  return [ value, handleOnChange, message ]
 } 

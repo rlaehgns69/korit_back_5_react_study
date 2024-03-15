@@ -20,7 +20,7 @@ export const input = css`
 `;
 
 export const messageBox = (type) => css`
-  padding: 5px 10px;
+  padding: ${type ==="error" ? "5px 10px": 0}; // 수정 5px 10px
   width: 100%;
   color: ${type === "error" ? "#ff6161" : "#00921b"};
   font-size: 11px;
