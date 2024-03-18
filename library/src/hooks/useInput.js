@@ -12,12 +12,13 @@ export const useInput = (property) => {
     // }
     if(!value) {
       setMessage(() => null);
+      console.log(value);
       return;
     }// 입력한 값이 비어있으면 메시지도 null 리턴
   
 
     const regexEntries = Object.entries(REGEX);
-    for(let [k, v ] of regexEntries) {
+    for(let [k, v] of regexEntries) {
       if(property === k) { // 키값이 동일하면
         if(v.regexr.test(value)) { // 통과  정규식 검사/ 값
           setMessage(message => {

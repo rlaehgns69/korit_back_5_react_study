@@ -11,7 +11,7 @@ import { signupRequest } from "../../apis/api/signup";
 function SignUpPage() {
   const navigate = useNavigate();
 
-  const [ username, usernameChange, usernameMessgage, setUsernameValue, setUsernameMessage ] = useInput("username"); // setusernameValue 순서
+  const [ username, usernameChange, usernameMessage, setUsernameValue, setUsernameMessage ] = useInput("username"); // setusernameValue 순서
   const [ password, passwordChange, passwordMessage ] = useInput("password");
   const [ checkPassword, checkPasswordChange ] = useInput("checkPassword");
   const [ name, nameChange, nameMessage] = useInput("name");
@@ -20,7 +20,7 @@ function SignUpPage() {
 
 
   useEffect(() => {
-    // console.log("test") useEffect동작
+    // console.log("test") //useEffect동작
     // 비어있을때
     // 둘중에 하나라도 비어있으면 값을 비우겠다.
     if(!checkPassword || !password) {
@@ -50,7 +50,7 @@ function SignUpPage() {
   // 요청들이 다 true일 때 가입하기 버튼 동작
   const handleSignSubmit = () => {
     const checkFlags = [
-      usernameMessgage?.type,
+      usernameMessage?.type,
       passwordMessage?.type,
       checkPasswordMessage?.type,
       nameMessage?.type, // 참조할게 없으면 안한다. property안에 type이 없으면
@@ -101,7 +101,7 @@ function SignUpPage() {
           <h1>회원가입</h1>
           <RightTopButton onClick={handleSignSubmit}> 가입하기 </RightTopButton>
         </div>
-        <AuthPageInput type={"text"} name={"username"} placeholder={"사용자이름"} value={username} onChange={usernameChange} message={usernameMessgage} />
+        <AuthPageInput type={"text"} name={"username"} placeholder={"사용자이름"} value={username} onChange={usernameChange} message={usernameMessage} />
         <AuthPageInput type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} message={passwordMessage} />
         <AuthPageInput type={"password"} name={"checkPassword"} placeholder={"비밀번호확인"} value={checkPassword} onChange={checkPasswordChange}  message={checkPasswordMessage} />
         <AuthPageInput type={"text"} name={"name"} placeholder={"성명"} value={name} onChange={nameChange} message={nameMessage} />

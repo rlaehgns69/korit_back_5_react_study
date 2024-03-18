@@ -4,6 +4,8 @@ import RootHeader from "./components/RootHeader/RootHeader";
 import RootLayout from "./components/RootLayout/RootLayout";
 import RootSideMenuLeft from "./components/RootSideMenuLeft/RootSideMenuLeft";
 import AuthPage from "./pages/AuthPage/AuthPage";
+import HomePage from "./pages/HomePage/HomePage";
+import AuthRoute from "./Routes/AuthRoute";
 
 
 function App() {
@@ -12,11 +14,7 @@ function App() {
       <RootContainer> 
         <RootSideMenuLeft />
         <RootHeader />
-        <Routes>
-          <Route path="/auth/*" element={ <AuthPage /> } />
-        </Routes>
-
-        
+        <AuthRoute />
       </RootContainer>
     </RootLayout>
   );
