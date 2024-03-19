@@ -12,7 +12,7 @@ export const useInput = (property) => {
     // }
     if(!value) {
       setMessage(() => null);
-      console.log(value);
+      // console.log(value);
       return;
     }// 입력한 값이 비어있으면 메시지도 null 리턴
   
