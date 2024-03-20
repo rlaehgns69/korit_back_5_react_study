@@ -55,15 +55,15 @@ export const infoText = css`
 export const emailBox = css`
   display: flex;
   align-items: center;
+
   margin-bottom: 10px;
-  & > div {
-    margin: 0;
+  & > div:nth-of-type(1) {
+    margin: 0px 10px 0px 0px;
   }
 `;
 
 export const infoButton = css`
   box-sizing: border-box;
-  margin-left: 10px;
   border: 1px solid #dbdbdb;
   border-radius: 3px;
   padding: 5px;
@@ -77,6 +77,25 @@ export const infoButton = css`
 
   &:active {
     background-color: #eeeeee;
+  }
+`;
+
+export const emailCheck = css`
+  display: flex;
+  align-items: center;
+ 
+
+  & > * {
+    color: #008734;
+  }
+`;
+
+export const infoButtons = css`
+  box-sizing: border-box;
+  display: flex;
+  padding-top: 5px;
+  & > button:nth-of-type(1) {
+    margin-right: 10px;
   }
 `;
 
