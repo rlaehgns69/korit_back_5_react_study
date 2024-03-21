@@ -24,7 +24,7 @@ function SignUpPage() {
   });
   // const testErrorMessage = {
   //   type: "success",
-  //   text: "이미 등록된 사용자이름입니다."
+  //   text: "등록된 사용자이름입니다."
   // }
 
   const handleCheckPassword = (e) => {
