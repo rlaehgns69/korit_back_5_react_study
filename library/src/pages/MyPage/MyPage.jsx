@@ -4,8 +4,10 @@ import * as s from "./style";
 import { sendAuthMailRequest } from "../../apis/api/sendAuthMail";
 import FullSizeLoader from "../../components/FullSizeLoader/FullSizeLoader";
 import { GoCheckCircle } from "react-icons/go";
+import { useAuthCheck } from "../../hooks/useAuthCheck";
 
 function MyPage() {
+  useAuthCheck();
   const queryClient = useQueryClient();
   const principalData = queryClient.getQueryData("principalQuery");
 
@@ -40,12 +42,12 @@ function MyPage() {
               </div>
             </div>
             <div css={s.infoBox}>
-              <div css={s.infoText}>사용자이름: {principalData.data.username}</div>
-              <div css={s.infoText}>이름: {principalData.data.name}</div>
+              <div css={s.infoText}>사용자이름: {principalData?.data.username}</div>
+              <div css={s.infoText}>이름: {principalData?.data.name}</div>
               <div css={s.emailBox}>
-                <div css={s.infoText}>이메일: {principalData.data.email}</div>
+                <div css={s.infoText}>이메일: {principalData?.data.email}</div>
                 {
-                principalData.data.authorities.filter(auth => auth.authority === "ROLE_USER").length === 0 
+                principalData?.data.authorities.filter(auth => auth.authority === "ROLE_USER").length === 0 
                 ? <button css={s.infoButton} onClick={handleSendAuthMailClick}>인증하기</button>
                 : <div css={s.emailCheck}><GoCheckCircle /></div>
                   //authorities배열 꺼내서 filter

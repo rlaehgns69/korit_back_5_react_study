@@ -37,6 +37,7 @@ function RootHeader() {
       return config;
     });// axios에 interceptors 요청 때 use사용
     queryClient.refetchQueries("principalQuery");// token 제거후 응답데이터 401 retry 0
+    window.location.replace("/auth/signin")//위에 없어도됨. 다시 날라감.
   }
   // const handleRefetch = () => {
   //   queryClient.refetchQueries("principalQuery");
